@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChillHub Community — Rulebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0e18;
+    --bg-grid: #0d1220;
+    --surface: #121a2b;
+    --surface-2: #161f34;
+    --stroke: rgba(232,163,61,0.16);
+    --stroke-strong: rgba(232,163,61,0.32);
+    --amber: #e8a33d;
+    --amber-soft: #f4c77a;
+    --teal: #49c5b6;
+    --ink: #f3efe6;
+    --ink-dim: #96a0b8;
+    --ink-faint: #5d6786;
+    --danger: #e15c4d;
+    --radius: 14px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(232,163,61,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 90% 20%, rgba(73,197,182,0.06), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .display{ font-family:'Big Shoulders Display', sans-serif; text-transform:uppercase; letter-spacing:0.01em; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  a{ color:var(--amber-soft); }
+
+  /* ---------- background runway grid ---------- */
+  .grid-lines{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(232,163,61,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,163,61,0.035) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* ---------- top strip ---------- */
+  .topbar{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1040px; margin:0 auto; padding:28px 24px 0;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.12em;
+    color:var(--ink-faint); text-transform:uppercase;
+  }
+  .topbar .dot{ color:var(--teal); }
+  .topbar a{ color:var(--ink-faint); text-decoration:none; transition:color 0.2s ease; }
+  .topbar a:hover{ color:var(--amber-soft); }
+
+  /* ---------- hero / departures board ---------- */
+  .hero{ position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:48px 24px 40px; }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.18em;
+    color:var(--amber-soft); text-transform:uppercase; margin-bottom:22px;
+  }
+  .eyebrow .plane{ display:inline-block; transform:rotate(90deg); }
+
+  .board{
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border:1px solid var(--stroke-strong);
+    border-radius:18px;
+    padding:28px 28px 22px;
+    box-shadow: 0 40px 80px -40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+
+  .board-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px dashed var(--stroke-strong);
+    padding-bottom:16px; margin-bottom:16px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.14em;
+    color:var(--ink-faint); text-transform:uppercase;
+  }
+  .board-head span.live{ color:var(--teal); }
+  .board-head span.live::before{
+    content:''; display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:var(--teal); margin-right:6px; box-shadow:0 0 8px var(--teal);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+  .flap-row{ display:flex; flex-wrap:wrap; gap:3px 6px; }
+  .flap{
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#05070d; border:1px solid rgba(232,163,61,0.22);
+    border-radius:4px; overflow:hidden; position:relative;
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800;
+    color:var(--amber-soft);
+    font-size:clamp(22px, 5vw, 44px);
+    width:clamp(18px, 3.6vw, 34px); height:clamp(28px, 5.6vw, 52px);
+    line-height:1;
+  }
+  .flap::after{
+    content:''; position:absolute; left:0; right:0; top:50%; height:1px;
+    background:rgba(0,0,0,0.55);
+  }
+  .flap.space{ background:transparent; border-color:transparent; width:12px; }
+
+  .board-sub{
+    margin-top:18px; display:flex; flex-wrap:wrap; gap:10px 28px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-dim);
+  }
+  .board-sub b{ color:var(--ink); font-weight:600; }
+
+  .hero-copy{ margin-top:28px; max-width:640px; }
+  .hero-copy h1{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800;
+    font-size:clamp(30px, 5vw, 46px); line-height:1.05; letter-spacing:0.01em;
+    color:var(--ink);
+  }
+  .hero-copy h1 .accent{ color:var(--amber); }
+  .hero-copy p{ margin-top:14px; color:var(--ink-dim); font-size:15px; max-width:52ch; }
+
+  /* ---------- section labels ---------- */
+  .section-label{
+    display:flex; align-items:center; gap:14px;
+    max-width:1040px; margin:64px auto 22px; padding:0 24px;
+    position:relative; z-index:2;
+  }
+  .section-label .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.16em;
+    color:var(--amber); border:1px solid var(--stroke-strong); border-radius:999px;
+    padding:5px 12px; text-transform:uppercase; white-space:nowrap;
+  }
+  .section-label .line{ height:1px; flex:1; background:linear-gradient(90deg, var(--stroke-strong), transparent); }
+  .section-label h2{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:22px; color:var(--ink-dim); letter-spacing:0.02em; white-space:nowrap;
+  }
+
+  /* ---------- boarding pass cards ---------- */
+  .passes{ max-width:1040px; margin:0 auto; padding:0 24px; display:flex; flex-direction:column; gap:16px; }
+
+  .pass{
+    display:grid; grid-template-columns: 116px 1px 1fr;
+    background:var(--surface); border:1px solid var(--stroke);
+    border-radius:var(--radius); overflow:hidden;
+    opacity:0; transform:translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.25s ease;
+  }
+  .pass.in{ opacity:1; transform:translateY(0); }
+  .pass:hover{ border-color:var(--stroke-strong); }
+
+  .pass-stub{
+    background:linear-gradient(160deg, rgba(232,163,61,0.10), rgba(232,163,61,0.02));
+    padding:20px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    text-align:center;
+  }
+  .pass-stub .code{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size:30px; color:var(--amber);
+    letter-spacing:0.02em;
+  }
+  .pass-stub .icon{ font-size:20px; }
+  .pass-stub .gate{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.1em;
+    color:var(--ink-faint); text-transform:uppercase;
+  }
+
+  .pass-perf{
+    position:relative;
+    background-image: radial-gradient(circle, var(--bg) 3px, transparent 3.5px);
+    background-size:1px 16px; background-repeat:repeat-y; background-position:center;
+  }
+
+  .pass-body{ padding:20px 22px 20px 24px; }
+  .pass-body h3{
+    font-family:'Manrope', sans-serif; font-weight:800; font-size:17px; color:var(--ink);
+    margin-bottom:10px; letter-spacing:0.01em;
+  }
+  .pass-body ul{ list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pass-body li{
+    position:relative; padding-left:18px; color:var(--ink-dim); font-size:14px; line-height:1.55;
+  }
+  .pass-body li::before{
+    content:''; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:1px;
+    background:var(--teal); transform:rotate(45deg);
+  }
+
+  @media (max-width: 620px){
+    .pass{ grid-template-columns: 84px 1px 1fr; }
+    .pass-stub{ padding:16px 8px; }
+    .pass-stub .code{ font-size:22px; }
+  }
+
+  /* ---------- strike track (B1) ---------- */
+  .track-wrap{
+    max-width:1040px; margin:0 auto; padding:0 24px 8px;
+  }
+  .track-card{
+    background:var(--surface); border:1px solid var(--stroke); border-radius:18px;
+    padding:32px 28px 28px;
+  }
+  .track-card > p{ color:var(--ink-dim); font-size:14px; max-width:60ch; margin-bottom:30px; }
+  .track-card > p strong{ color:var(--danger); font-weight:700; }
+
+  .track{ position:relative; padding:18px 0 6px; }
+  .track-line{
+    position:absolute; top:29px; left:5%; right:5%; height:2px;
+    background: repeating-linear-gradient(90deg, var(--stroke-strong) 0 10px, transparent 10px 18px);
+  }
+  .track-plane{
+    position:absolute; top:20px; left:5%; font-size:16px; color:var(--amber);
+    animation: fly 8s linear infinite;
+  }
+  @keyframes fly{
+    0%{ left:5%; transform:rotate(0deg) translateX(0); opacity:0; }
+    5%{ opacity:1; }
+    95%{ opacity:1; }
+    100%{ left:92%; opacity:0; }
+  }
+
+  .stops{ position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .stop{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; }
+  .stop .node{
+    width:16px; height:16px; border-radius:50%; background:var(--bg);
+    border:2px solid var(--amber); position:relative; z-index:1;
+    box-shadow:0 0 0 5px var(--surface);
+  }
+  .stop:last-child .node{ border-color:var(--danger); background:var(--danger); }
+  .stop .stage{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.1em;
+    color:var(--ink-faint); text-transform:uppercase;
+  }
+  .stop .label{ font-weight:700; font-size:14px; color:var(--ink); }
+
+  @media (max-width: 700px){
+    .stops{ grid-template-columns:1fr; gap:22px; text-align:left; }
+    .track-line, .track-plane{ display:none; }
+    .stop{ flex-direction:row; text-align:left; }
+  }
+
+  /* ---------- final authority banner ---------- */
+  .authority{
+    max-width:1040px; margin:56px auto 0; padding:0 24px;
+  }
+  .authority-inner{
+    border:1px dashed var(--stroke-strong); border-radius:16px;
+    padding:22px 24px; display:flex; align-items:center; gap:16px;
+    background:linear-gradient(160deg, rgba(232,163,61,0.06), transparent);
+  }
+  .authority-inner .glyph{ font-size:26px; }
+  .authority-inner p{ color:var(--ink-dim); font-size:13.5px; }
+  .authority-inner p b{ color:var(--amber-soft); }
+
+  /* ---------- footer ---------- */
+  footer{
+    max-width:1040px; margin:64px auto 0; padding:26px 24px 48px;
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em;
+    color:var(--ink-faint); text-transform:uppercase;
+    border-top:1px solid var(--stroke); position:relative; z-index:2;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .pass{ opacity:1; transform:none; }
+  }
+
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<div class="grid-lines"></div>
+
+<div class="topbar">
+  <span><a href="index.html"><span class="dot">●</span> CHILLHUB.NET</a></span>
+  <span><a href="index.html">← Back to Home</a></span>
+</div>
+
+<header class="hero">
+  <div class="eyebrow"><span class="plane">✈</span> ChillHub Community · Server Documentation</div>
+
+  <div class="board">
+    <div class="board-head">
+      <span>Departures</span>
+      <span class="live">Rules In Effect</span>
+    </div>
+    <div class="flap-row" id="flapRow"></div>
+    <div class="board-sub">
+      <span>Flight <b>CH‑RULES</b></span>
+      <span>Gates <b>A1 – A10</b></span>
+      <span>Status <b style="color:var(--teal)">Boarding</b></span>
+    </div>
+  </div>
+
+  <div class="hero-copy">
+    <h1>Read this before you <span class="accent">board.</span></h1>
+    <p>Every member of ChillHub Community flies under the same rulebook. Ten gates of conduct, one enforcement policy, no exceptions. Skim it once — it's shorter than the safety card.</p>
+  </div>
+</header>
+
+<div class="section-label">
+  <span class="tag">Part A</span>
+  <div class="line"></div>
+  <h2>Rule Enforcement</h2>
+</div>
+
+<section class="passes" id="passesA"></section>
+
+<div class="section-label">
+  <span class="tag">Part B</span>
+  <div class="line"></div>
+  <h2>Policy Enforcement</h2>
+</div>
+
+<div class="track-wrap">
+  <div class="track-card">
+    <p><span class="mono" style="color:var(--amber-soft);">B1 · Moderation Policy —</span> this server follows a four‑strike system. <strong>Severe violations or Discord ToS breaches skip the line</strong> and may result in an immediate permanent ban without warning. All actions are sent via DM.</p>
+
+    <div class="track">
+      <div class="track-line"></div>
+      <div class="track-plane">✈</div>
+      <div class="stops">
+        <div class="stop"><div class="node"></div><div class="stage">Stop 01</div><div class="label">Verbal Warning</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Stop 02</div><div class="label">24‑Hour Mute</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Stop 03</div><div class="label">3‑Day Ban</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Final Stop</div><div class="label">Permanent Ban</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="authority">
+  <div class="authority-inner">
+    <span class="glyph">👑</span>
+    <p><b>A10 · Final Authority</b> — the ChillHub Management Team has final say on every ruling. No public disputes, no refusing to comply, no rules‑lawyering to reverse a decision.</p>
+  </div>
+</div>
+
+<footer>
+  <span>ChillHub Community · Rulebook</span>
+  <span>Fly safe. Be kind. Read the gate before you argue with staff.</span>
+</footer>
+
+<script>
+  // ---- split-flap hero text ----
+  const text = "CHILLHUB RULES";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+  const row = document.getElementById('flapRow');
+  const targets = [];
+
+  text.split('').forEach((ch) => {
+    const el = document.createElement('div');
+    if(ch === ' '){
+      el.className = 'flap space';
+      row.appendChild(el);
+      return;
+    }
+    el.className = 'flap';
+    el.textContent = ch;
+    row.appendChild(el);
+    targets.push({el, ch});
+  });
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function flapIn(){
+    if(prefersReduced) return;
+    targets.forEach(({el, ch}, i) => {
+      let ticks = 6 + Math.floor(Math.random() * 6);
+      let count = 0;
+      const interval = setInterval(() => {
+        el.textContent = chars[Math.floor(Math.random() * chars.length)];
+        count++;
+        if(count >= ticks){
+          clearInterval(interval);
+          el.textContent = ch;
+        }
+      }, 60);
+    });
+  }
+  setTimeout(flapIn, 260);
+
+  // ---- rule data (Part A) ----
+  const rules = [
+    { code:'A1', icon:'🖥️', title:'Server Compliance', points:[
+      'ChillHub Community operates under the Discord Terms of Service and Discord Community Guidelines.',
+      'No rule bypassing or exploiting loopholes, using alt accounts to avoid punishment, or external abuse targeting this server or its members.'
+    ]},
+    { code:'A2', icon:'🚫', title:'Restricted Content', points:[
+      'No inappropriate, prohibited, harmful, or unauthorized content allowed.',
+      'No NSFW or adult content, hate speech or discrimination, violence or gore, illegal content, malware, or harmful files.'
+    ]},
+    { code:'A3', icon:'💬', title:'Chat Conduct', points:[
+      'Keep conversations respectful and use the proper channels.',
+      'No spam or flooding, harassment or toxic behavior, and no excessive profanity.'
+    ]},
+    { code:'A4', icon:'🎙️', title:'Voice Conduct', points:[
+      'Respect everyone in voice channels and keep your microphone clear.',
+      'No mic spamming, excessive background noise, or interrupting and talking over others.'
+    ]},
+    { code:'A5', icon:'📢', title:'Advertisement', points:[
+      'No unauthorized advertising, mass DM advertising, or server invite spam.',
+      'No self‑promotion or commercial promotions without permission.'
+    ]},
+    { code:'A6', icon:'🛡️', title:'Security & Privacy', points:[
+      'Protect your personal information and report suspicious activity.',
+      'No scams or phishing, sharing malware or malicious files/links, and no doxxing or privacy violations.'
+    ]},
+    { code:'A7', icon:'🎖️', title:'Staff & Authority', points:[
+      'Respect staff members and follow staff instructions.',
+      'No staff impersonation, harassment or abuse, and no bypassing staff decisions.'
+    ]},
+    { code:'A8', icon:'🎉', title:'Event Conduct', points:[
+      'Follow the event rules and respect the event host.',
+      'No cheating or exploiting, disrupting the event, or harassment during events.'
+    ]},
+    { code:'A9', icon:'⚖️', title:'Moderation Enforcement', points:[
+      'Accept the escalation system, moderation policy decisions, and cooperate with staff.',
+      'An appeal system is available through designated channels and forms.',
+      'No evading punishments, filing false reports, or arguing about moderation in public channels.'
+    ]},
+    { code:'A10', icon:'👑', title:'Final Authority', points:[
+      'The ChillHub Management Team has final say on every ruling.',
+      'No disputing final decisions publicly, refusing to comply with final rulings, or manipulating rules to challenge decisions.'
+    ]},
+  ];
+
+  const wrap = document.getElementById('passesA');
+  rules.forEach(r => {
+    const card = document.createElement('article');
+    card.className = 'pass';
+    card.innerHTML = `
+      <div class="pass-stub">
+        <div class="icon">${r.icon}</div>
+        <div class="code">${r.code}</div>
+        <div class="gate">Gate</div>
+      </div>
+      <div class="pass-perf"></div>
+      <div class="pass-body">
+        <h3>${r.title}</h3>
+        <ul>${r.points.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+
+  // ---- scroll reveal ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.pass').forEach(el => io.observe(el));
+
+  if(prefersReduced){
+    document.querySelectorAll('.pass').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>

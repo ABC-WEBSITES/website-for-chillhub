@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChillHub Community — Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e18; --surface:#121a2b; --surface-2:#161f34;
+    --stroke:rgba(232,163,61,0.16); --stroke-strong:rgba(232,163,61,0.32);
+    --amber:#e8a33d; --amber-soft:#f4c77a; --teal:#49c5b6;
+    --ink:#f3efe6; --ink-dim:#96a0b8; --ink-faint:#5d6786; --radius:16px;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(232,163,61,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 90% 10%, rgba(73,197,182,0.07), transparent 60%),
+      var(--bg);
+    color:var(--ink); font-family:'Manrope', sans-serif; line-height:1.5;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:inherit; text-decoration:none; }
+  .grid-lines{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:linear-gradient(rgba(232,163,61,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,163,61,0.035) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image: radial-gradient(ellipse 100% 55% at 50% 0%, black 0%, transparent 75%);
+  }
+  nav{ position:relative; z-index:3; display:flex; align-items:center; justify-content:space-between;
+    max-width:1080px; margin:0 auto; padding:24px 24px 0; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:15px; }
+  .brand .badge{ width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--amber), #c97b1f); font-size:14px; box-shadow:0 4px 14px rgba(232,163,61,0.35); }
+  .navlinks{ display:flex; align-items:center; gap:28px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .navlinks a{ transition:color 0.2s ease; }
+  .navlinks a:hover{ color:var(--amber-soft); }
+  .navlinks .cta{ color:var(--bg); background:var(--amber); padding:9px 16px; border-radius:999px; font-weight:700; }
+  .navlinks .cta:hover{ background:var(--amber-soft); }
+  @media (max-width:640px){ .navlinks span.hide-mobile{ display:none; } }
+
+  .hero{ position:relative; z-index:2; max-width:1080px; margin:0 auto; padding:56px 24px 0; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:11px;
+    letter-spacing:0.16em; color:var(--teal); text-transform:uppercase; border:1px solid var(--stroke-strong);
+    border-radius:999px; padding:6px 14px; margin-bottom:24px; }
+  .eyebrow::before{ content:'●'; color:var(--teal); }
+  .hero h1{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; text-transform:uppercase;
+    font-size:clamp(36px, 6vw, 62px); line-height:1; max-width:18ch; }
+  .hero h1 .accent{ color:var(--amber); }
+  .hero p.lede{ margin-top:20px; color:var(--ink-dim); font-size:15.5px; max-width:58ch; }
+
+  .section-label{ display:flex; align-items:center; gap:14px; max-width:1080px; margin:72px auto 24px;
+    padding:0 24px; position:relative; z-index:2; }
+  .section-label .tag{ font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.16em; color:var(--amber);
+    border:1px solid var(--stroke-strong); border-radius:999px; padding:5px 12px; text-transform:uppercase; white-space:nowrap; }
+  .section-label .line{ height:1px; flex:1; background:linear-gradient(90deg, var(--stroke-strong), transparent); }
+  .section-label h2{ font-family:'Big Shoulders Display', sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:22px; color:var(--ink); white-space:nowrap; }
+  .section-intro{ max-width:60ch; margin:-8px auto 30px; padding:0 24px; color:var(--ink-dim); font-size:14.5px; }
+
+  /* event type cards */
+  .types{ max-width:1080px; margin:0 auto; padding:0 24px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  @media (max-width:700px){ .types{ grid-template-columns:1fr; } }
+  .type{ background:var(--surface); border:1px solid var(--stroke); border-radius:var(--radius); padding:24px;
+    display:flex; flex-direction:column; gap:12px; }
+  .type-top{ display:flex; align-items:center; gap:12px; }
+  .type .icon{ width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    font-size:18px; background:linear-gradient(160deg, rgba(232,163,61,0.18), rgba(232,163,61,0.04)); border:1px solid var(--stroke-strong); }
+  .type h3{ font-size:16.5px; font-weight:800; }
+  .type p{ color:var(--ink-dim); font-size:13.5px; line-height:1.6; }
+  .type .via{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-faint); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px; }
+
+  /* how it works timeline */
+  .track-wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+  .track-card{ background:var(--surface); border:1px solid var(--stroke); border-radius:18px; padding:32px 28px 28px; }
+  .track-card > p{ color:var(--ink-dim); font-size:14px; max-width:60ch; margin-bottom:30px; }
+  .track{ position:relative; padding:18px 0 6px; }
+  .track-line{ position:absolute; top:29px; left:5%; right:5%; height:2px;
+    background:repeating-linear-gradient(90deg, var(--stroke-strong) 0 10px, transparent 10px 18px); }
+  .stops{ position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .stop{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; }
+  .stop .node{ width:16px; height:16px; border-radius:50%; background:var(--bg); border:2px solid var(--amber);
+    position:relative; z-index:1; box-shadow:0 0 0 5px var(--surface); }
+  .stop .stage{ font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.1em; color:var(--ink-faint); text-transform:uppercase; }
+  .stop .label{ font-weight:700; font-size:13.5px; color:var(--ink); }
+  @media (max-width:700px){ .stops{ grid-template-columns:1fr; gap:20px; text-align:left; } .track-line{ display:none; }
+    .stop{ flex-direction:row; text-align:left; } }
+
+  .final{ max-width:1080px; margin:80px auto 0; padding:0 24px; }
+  .final-inner{ background:linear-gradient(160deg, rgba(232,163,61,0.14), var(--surface)); border:1px solid var(--stroke-strong);
+    border-radius:22px; padding:44px 32px; text-align:center; }
+  .final-inner h2{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; text-transform:uppercase;
+    font-size:clamp(24px, 4vw, 36px); margin-bottom:12px; }
+  .final-inner p{ color:var(--ink-dim); max-width:48ch; margin:0 auto 22px; font-size:14px; }
+  .btn{ font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:13px 22px; border-radius:10px; font-weight:600; display:inline-flex; align-items:center; gap:8px;
+    background:var(--amber); color:#160f04; box-shadow:0 12px 30px -10px rgba(232,163,61,0.55); transition:transform 0.2s ease; }
+  .btn:hover{ transform:translateY(-2px); }
+
+  footer{ max-width:1080px; margin:60px auto 0; padding:26px 24px 48px; display:flex; flex-wrap:wrap;
+    justify-content:space-between; gap:12px; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em;
+    color:var(--ink-faint); text-transform:uppercase; border-top:1px solid var(--stroke); position:relative; z-index:2; }
+  footer a:hover{ color:var(--amber-soft); }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+
+<div class="grid-lines"></div>
+
+<nav>
+  <div class="brand"><span class="badge">✈</span> ChillHub Community</div>
+  <div class="navlinks">
+    <a href="index.html">Home</a>
+    <span class="hide-mobile"><a href="minigames.html">Minigames</a></span>
+    <span class="hide-mobile"><a href="team.html">Crew</a></span>
+    <a href="chillhub-rules.html">Rulebook</a>
+    <a href="faq.html">FAQ</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="https://discord.gg/Ry6eRxQgAQ" class="cta" target="_blank" rel="noopener">Join Server</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Departures Board · Events</div>
+  <h1>Something's always <span class="accent">boarding.</span></h1>
+  <p class="lede">Events are how ChillHub actually feels alive — scheduled ones you can plan around, and surprise ones that just show up on the board. Here's how the program works and where to watch for the next one.</p>
+</header>
+
+<div class="section-label" id="types">
+  <span class="tag">Flight Types</span>
+  <div class="line"></div>
+  <h2>What kinds of events run</h2>
+</div>
+<p class="section-intro">Events aren't limited to one gate — most tie back to a category you already know from the terminal map.</p>
+
+<section class="types">
+  <article class="type">
+    <div class="type-top"><div class="icon">🎈</div><h3>Social Meetups</h3></div>
+    <p>Casual hangouts, movie nights, and open voice sessions in Community Hall — no agenda required.</p>
+    <div class="via">Via · Social gate</div>
+  </article>
+  <article class="type">
+    <div class="type-top"><div class="icon">🎮</div><h3>Gaming Nights</h3></div>
+    <p>Group sessions, tournaments, and LFG pushes for whatever the server's playing that week.</p>
+    <div class="via">Via · Gaming gate</div>
+  </article>
+  <article class="type">
+    <div class="type-top"><div class="icon">🎓</div><h3>Academy Workshops</h3></div>
+    <p>Study sessions and skill-sharing threads for members working on something specific.</p>
+    <div class="via">Via · Academy gate</div>
+  </article>
+  <article class="type">
+    <div class="type-top"><div class="icon">🌐</div><h3>Society Gatherings</h3></div>
+    <p>Club-run meetups for whichever special-interest societies are active that month.</p>
+    <div class="via">Via · Society gate</div>
+  </article>
+</section>
+
+<div class="section-label">
+  <span class="tag">Flight Path</span>
+  <div class="line"></div>
+  <h2>How an event reaches you</h2>
+</div>
+
+<div class="track-wrap">
+  <div class="track-card">
+    <p>Every event follows the same route from announcement to landing — no digging through channels to find out what's happening.</p>
+    <div class="track">
+      <div class="track-line"></div>
+      <div class="stops">
+        <div class="stop"><div class="node"></div><div class="stage">Stop 01</div><div class="label">Posted in event‑announcement</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Stop 02</div><div class="label">Pinged via self‑role</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Stop 03</div><div class="label">Runs in its gate's channel</div></div>
+        <div class="stop"><div class="node"></div><div class="stage">Final Stop</div><div class="label">Recapped for anyone who missed it</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="final">
+  <div class="final-inner">
+    <h2>Don't miss the next one</h2>
+    <p>Grab the event ping role from self‑role once you're in, and keep an eye on event‑announcement.</p>
+    <a href="https://discord.gg/Ry6eRxQgAQ" class="btn" target="_blank" rel="noopener">✈ Join ChillHub Community</a>
+  </div>
+</div>
+
+<footer>
+  <span>ChillHub Community · Events</span>
+  <span><a href="index.html">← Back to Home</a></span>
+</footer>
+
+</body>
+</html>

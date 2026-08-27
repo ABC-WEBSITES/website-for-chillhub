@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChillHub Community — Welcome Aboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0e18;
+    --surface: #121a2b;
+    --surface-2: #161f34;
+    --stroke: rgba(232,163,61,0.16);
+    --stroke-strong: rgba(232,163,61,0.32);
+    --amber: #e8a33d;
+    --amber-soft: #f4c77a;
+    --teal: #49c5b6;
+    --ink: #f3efe6;
+    --ink-dim: #96a0b8;
+    --ink-faint: #5d6786;
+    --radius: 16px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(232,163,61,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 90% 10%, rgba(73,197,182,0.07), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .display{ font-family:'Big Shoulders Display', sans-serif; text-transform:uppercase; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:inherit; text-decoration:none; }
+
+  .grid-lines{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(232,163,61,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,163,61,0.035) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image: radial-gradient(ellipse 100% 55% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  nav{
+    position:relative; z-index:3;
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1080px; margin:0 auto; padding:24px 24px 0;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:15px; letter-spacing:0.01em; }
+  .brand .badge{
+    width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg, var(--amber), #c97b1f); font-size:14px; box-shadow:0 4px 14px rgba(232,163,61,0.35);
+  }
+  .navlinks{ display:flex; align-items:center; gap:28px; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .navlinks a{ transition:color 0.2s ease; }
+  .navlinks a:hover{ color:var(--amber-soft); }
+  .navlinks .cta{
+    color:var(--bg); background:var(--amber); padding:9px 16px; border-radius:999px; font-weight:700;
+  }
+  .navlinks .cta:hover{ background:var(--amber-soft); color:var(--bg); }
+
+  @media (max-width:640px){ .navlinks span.hide-mobile{ display:none; } }
+
+  .hero{ position:relative; z-index:2; max-width:1080px; margin:0 auto; padding:56px 24px 0; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.16em;
+    color:var(--teal); text-transform:uppercase; border:1px solid var(--stroke-strong);
+    border-radius:999px; padding:6px 14px; margin-bottom:24px;
+  }
+  .eyebrow::before{ content:'●'; color:var(--teal); }
+
+  .hero h1{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800; text-transform:uppercase;
+    font-size:clamp(40px, 7vw, 76px); line-height:0.98; letter-spacing:0.005em; max-width:16ch;
+  }
+  .hero h1 .accent{ color:var(--amber); }
+
+  .hero p.lede{ margin-top:22px; color:var(--ink-dim); font-size:16px; max-width:56ch; }
+
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:14px 24px; border-radius:10px; font-weight:600; display:inline-flex; align-items:center; gap:8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary{ background:var(--amber); color:#160f04; box-shadow:0 12px 30px -10px rgba(232,163,61,0.55); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 34px -8px rgba(232,163,61,0.65); }
+  .btn-ghost{ border:1px solid var(--stroke-strong); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--amber-soft); color:var(--amber-soft); }
+
+  .strip{ position:relative; z-index:2; max-width:1080px; margin:52px auto 0; padding:0 24px; }
+  .strip-inner{
+    background:linear-gradient(180deg, var(--surface-2), var(--surface));
+    border:1px solid var(--stroke-strong); border-radius:18px;
+    padding:22px 26px; display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;
+    box-shadow:0 40px 80px -50px rgba(0,0,0,0.7);
+  }
+  .stat{ display:flex; flex-direction:column; gap:6px; border-left:1px dashed var(--stroke-strong); padding-left:18px; }
+  .stat:first-child{ border-left:none; padding-left:0; }
+  .stat .num{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size:30px; color:var(--amber-soft); line-height:1; }
+  .stat .num .pulse{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--teal); margin-right:8px; vertical-align:middle; box-shadow:0 0 8px var(--teal); animation:pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .stat .lbl{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); }
+
+  @media (max-width:700px){
+    .strip-inner{ grid-template-columns:repeat(2,1fr); }
+    .stat:nth-child(3){ border-left:none; padding-left:0; }
+  }
+
+  .section-label{
+    display:flex; align-items:center; gap:14px;
+    max-width:1080px; margin:88px auto 24px; padding:0 24px; position:relative; z-index:2;
+  }
+  .section-label .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.16em;
+    color:var(--amber); border:1px solid var(--stroke-strong); border-radius:999px;
+    padding:5px 12px; text-transform:uppercase; white-space:nowrap;
+  }
+  .section-label .line{ height:1px; flex:1; background:linear-gradient(90deg, var(--stroke-strong), transparent); }
+  .section-label h2{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:24px; color:var(--ink); letter-spacing:0.02em; white-space:nowrap;
+  }
+  .section-intro{ max-width:1080px; margin:-8px auto 30px; padding:0 24px; color:var(--ink-dim); font-size:14.5px; max-width:60ch; }
+
+  .gates{
+    max-width:1080px; margin:0 auto; padding:0 24px;
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+  }
+  @media (max-width:900px){ .gates{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .gates{ grid-template-columns:1fr; } }
+
+  .gate{
+    background:var(--surface); border:1px solid var(--stroke); border-radius:var(--radius);
+    padding:24px; display:flex; flex-direction:column; gap:14px;
+    opacity:0; transform:translateY(16px);
+    transition:opacity 0.55s ease, transform 0.55s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .gate.in{ opacity:1; transform:translateY(0); }
+  .gate:hover{ border-color:var(--stroke-strong); background:var(--surface-2); }
+
+  .gate-top{ display:flex; align-items:center; justify-content:space-between; }
+  .gate .icon{
+    width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    font-size:19px; background:linear-gradient(160deg, rgba(232,163,61,0.18), rgba(232,163,61,0.04));
+    border:1px solid var(--stroke-strong);
+  }
+  .gate .gate-no{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-faint); letter-spacing:0.08em; }
+  .gate h3{ font-size:17px; font-weight:800; }
+  .gate p{ color:var(--ink-dim); font-size:13.5px; line-height:1.6; }
+
+  .features{ max-width:1080px; margin:0 auto; padding:0 24px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:800px){ .features{ grid-template-columns:1fr; } }
+  .feature{
+    border:1px dashed var(--stroke-strong); border-radius:var(--radius); padding:22px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .feature .tag2{ font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.12em; color:var(--teal); text-transform:uppercase; }
+  .feature h4{ font-size:16px; font-weight:800; }
+  .feature p{ color:var(--ink-dim); font-size:13.5px; }
+
+  .final{ max-width:1080px; margin:96px auto 0; padding:0 24px; }
+  .final-inner{
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg, rgba(232,163,61,0.14), var(--surface));
+    border:1px solid var(--stroke-strong); border-radius:22px;
+    padding:48px 32px; text-align:center;
+  }
+  .final-inner .plane-trail{
+    position:absolute; top:38px; left:-40px; font-size:20px; color:var(--amber);
+    animation:cross 6s linear infinite;
+  }
+  @keyframes cross{ 0%{ left:-5%; opacity:0; } 8%{ opacity:1; } 92%{ opacity:1; } 100%{ left:105%; opacity:0; } }
+  .final-inner h2{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800; text-transform:uppercase;
+    font-size:clamp(28px, 5vw, 44px); margin-bottom:14px;
+  }
+  .final-inner p{ color:var(--ink-dim); max-width:48ch; margin:0 auto 26px; font-size:14.5px; }
+
+  footer{
+    max-width:1080px; margin:60px auto 0; padding:26px 24px 48px;
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em;
+    color:var(--ink-faint); text-transform:uppercase;
+    border-top:1px solid var(--stroke); position:relative; z-index:2;
+  }
+  footer a:hover{ color:var(--amber-soft); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .gate{ opacity:1; transform:none; }
+  }
+
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<div class="grid-lines"></div>
+
+<nav>
+  <div class="brand"><span class="badge">✈</span> ChillHub Community</div>
+  <div class="navlinks">
+    <a href="events.html">Events</a>
+    <span class="hide-mobile"><a href="minigames.html">Minigames</a></span>
+    <span class="hide-mobile"><a href="team.html">Crew</a></span>
+    <a href="chillhub-rules.html">Rulebook</a>
+    <a href="faq.html">FAQ</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="https://discord.gg/Ry6eRxQgAQ" class="cta" target="_blank" rel="noopener">Join Server</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Est. Feb 2026 · Now boarding</div>
+  <h1>Welcome aboard<br><span class="accent">ChillHub</span> Community.</h1>
+  <p class="lede">An airplane‑themed community built for people who'd rather be flying somewhere fun. Societies, events, efficient services, and a runway of minigames — pick a gate and go.</p>
+  <div class="hero-actions">
+    <a href="https://discord.gg/Ry6eRxQgAQ" class="btn btn-primary" target="_blank" rel="noopener">✈ Join the Flight</a>
+    <a href="#gates" class="btn btn-ghost">View Gates</a>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="strip-inner">
+    <div class="stat">
+      <div class="num" id="stat-online"><span class="pulse"></span>34</div>
+      <div class="lbl">Online Now</div>
+    </div>
+    <div class="stat">
+      <div class="num" id="stat-members">168</div>
+      <div class="lbl">Members</div>
+    </div>
+    <div class="stat">
+      <div class="num">5</div>
+      <div class="lbl">Gates / Categories</div>
+    </div>
+    <div class="stat">
+      <div class="num">Feb '26</div>
+      <div class="lbl">Established</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label" id="gates">
+  <span class="tag">Terminal Map</span>
+  <div class="line"></div>
+  <h2>Pick your gate</h2>
+</div>
+<p class="section-intro">Every member checks in through one of five gates. Pick the ones that match what you're here for — nothing stops you boarding more than one.</p>
+
+<section class="gates">
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🎈</div><div class="gate-no">Gate A1</div></div>
+    <h3>Social</h3>
+    <p>General hangout space — chat, share what you're up to, and meet the rest of the terminal.</p>
+  </article>
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🎉</div><div class="gate-no">Gate A2</div></div>
+    <h3>Event</h3>
+    <p>Server events and announcements land here first. Departures are scheduled, arrivals are a surprise.</p>
+  </article>
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🎮</div><div class="gate-no">Gate A3</div></div>
+    <h3>Gaming</h3>
+    <p>Squad up, find a lobby, and get pinged when someone's looking for one more player.</p>
+  </article>
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🎓</div><div class="gate-no">Gate A4</div></div>
+    <h3>Academy</h3>
+    <p>Study resources, learning threads, and a quieter corner of the terminal for getting things done.</p>
+  </article>
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🌐</div><div class="gate-no">Gate A5</div></div>
+    <h3>Society</h3>
+    <p>Clubs and special‑interest groups — if there isn't one for your thing yet, there's room to start it.</p>
+  </article>
+  <article class="gate">
+    <div class="gate-top"><div class="icon">🕹️</div><div class="gate-no">Gate A6</div></div>
+    <h3>Minigames</h3>
+    <p>Fishing, counting, grow‑a‑tree, confessions, and more — the runway's full of small games to try.</p>
+  </article>
+</section>
+
+<div class="section-label" id="features">
+  <span class="tag">Onboard Service</span>
+  <div class="line"></div>
+  <h2>What's included</h2>
+</div>
+
+<section class="features">
+  <div class="feature">
+    <span class="tag2">Community</span>
+    <h4>Fun societies & events</h4>
+    <p>Regular events and member‑run societies keep the terminal from ever feeling empty.</p>
+  </div>
+  <div class="feature">
+    <span class="tag2">Support</span>
+    <h4>Efficient services</h4>
+    <p>Tickets, logs, and a moderation team that actually responds — no lost boarding passes.</p>
+  </div>
+  <div class="feature">
+    <span class="tag2">Play</span>
+    <h4>A runway of minigames</h4>
+    <p>From fishing to grow‑a‑tree, there's always something small and fun to poke at between chats.</p>
+  </div>
+</section>
+
+<div class="final">
+  <div class="final-inner">
+    <div class="plane-trail">✈</div>
+    <h2>Ready for takeoff?</h2>
+    <p>Grab a seat, pick your gates, and say hello in Social. Boarding never really closes here.</p>
+    <a href="https://discord.gg/Ry6eRxQgAQ" class="btn btn-primary" target="_blank" rel="noopener">✈ Join ChillHub Community</a>
+  </div>
+</div>
+
+<footer>
+  <span>ChillHub Community · Home</span>
+  <span><a href="chillhub-rules.html">Read the Rulebook →</a></span>
+</footer>
+
+<script>
+  // --- Live stats from the bot's read-only API ---
+  // Since this site is served over HTTPS (GitHub Pages), API_BASE MUST also
+  // be HTTPS or browsers will silently block the request as mixed content.
+  // Put a reverse proxy (Caddy) with a real domain in front of the bot's
+  // API first — see the bot repo's README for the 5-minute setup — then
+  // set this to that HTTPS address, e.g. "https://api.yourdomain.com".
+  const API_BASE = "";
+
+  if(API_BASE){
+    fetch(`${API_BASE}/api/stats`)
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        const onlineEl = document.getElementById('stat-online');
+        const membersEl = document.getElementById('stat-members');
+        if(onlineEl) onlineEl.innerHTML = `<span class="pulse"></span>${data.online_count}`;
+        if(membersEl) membersEl.textContent = data.member_count;
+      })
+      .catch(() => { /* keep static fallback numbers on any failure */ });
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.gate').forEach(el => io.observe(el));
+
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.gate').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
